@@ -12,13 +12,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{domain}}/",
+					"raw": "localhost:8081",
 					"host": [
-						"{{domain}}"
+						"localhost"
 					],
-					"path": [
-						""
-					]
+					"port": "8081"
 				}
 			},
 			"response": []
@@ -30,7 +28,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"mang1\",\r\n    \"email\": \"mang1@gmail.com\"\r\n}",
+					"raw": "{\r\n    \"name\": \"email\",\r\n    \"email\": \"email@gmail.com\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -38,13 +36,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{domain}}/create/profile",
+					"raw": "{{domain}}/users",
 					"host": [
 						"{{domain}}"
 					],
 					"path": [
-						"create",
-						"profile"
+						"users"
 					]
 				}
 			},
@@ -56,13 +53,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{domain}}/fetch/profile",
+					"raw": "{{domain}}/users",
 					"host": [
 						"{{domain}}"
 					],
 					"path": [
-						"fetch",
-						"profile"
+						"users"
 					]
 				}
 			},
@@ -74,14 +70,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{domain}}/fetch/profile/63f73924a8905ef96c87f431",
+					"raw": "{{domain}}/users/63fc4af6c970de7a51e03980",
 					"host": [
 						"{{domain}}"
 					],
 					"path": [
-						"fetch",
-						"profile",
-						"63f73924a8905ef96c87f431"
+						"users",
+						"63fc4af6c970de7a51e03980"
 					]
 				}
 			},
@@ -93,14 +88,13 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{domain}}/profile/delete/63f73924a8905ef96c87f431",
+					"raw": "{{domain}}/users/63f73a88c92d4610f603136e",
 					"host": [
 						"{{domain}}"
 					],
 					"path": [
-						"profile",
-						"delete",
-						"63f73924a8905ef96c87f431"
+						"users",
+						"63f73a88c92d4610f603136e"
 					]
 				}
 			},
@@ -109,11 +103,11 @@
 		{
 			"name": "update Profile",
 			"request": {
-				"method": "PUT",
+				"method": "PATCH",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\":\"touthang\"\r\n}",
+					"raw": "{\r\n    \"name\":\"tested\",\r\n    \"email\": \"tested@gmail.com\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -121,14 +115,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{domain}}/profile/update/63f73924a8905ef96c87f431",
+					"raw": "{{domain}}/users/63fc4af6c970de7a51e03980",
 					"host": [
 						"{{domain}}"
 					],
 					"path": [
-						"profile",
-						"update",
-						"63f73924a8905ef96c87f431"
+						"users",
+						"63fc4af6c970de7a51e03980"
 					]
 				}
 			},

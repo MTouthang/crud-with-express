@@ -4,7 +4,6 @@ import {
   deleteProfile,
   fetchProfiles,
   getProfileById,
-  home,
   updateProfile,
 } from "../controllers/user.controller.js";
 const router = express.Router();

@@ -5,10 +5,10 @@ import User from "../model/user.model.js";
  * @param {*} req
  * @param {*} res
  * @description home route to test if the api is working
- * @returns {String} hello world
+ * @returns {String} Pong
  */
 export const home = (req, res) => {
-  res.send("hello world");
+  res.send("Pong");
 };
 
 /**
@@ -56,7 +56,7 @@ export const createProfile = async (req, res) => {
 
 /**
  * @fetchProfiles - get request
- * @param {} req  user email
+ * @param {String} req  user email
  * @param {Object} res all the profiles of the user
  * @description get all the available user profile
  * @returns {Object} object of user details
@@ -189,4 +189,11 @@ export const updateProfile = async (req, res) => {
       message: "profile not updated",
     });
   }
+};
+
+export const missingEndPoints = (req, res, next) => {
+  res.status(404).json({
+    success: false,
+    message: `404 - ${req.method} ${req.originalUrl} not found`,
+  });
 };
