@@ -11,7 +11,29 @@ A simple CRUD demo application
 1. **Morgan**: is a Nodejs and Express middleware to log HTTP requests and Errors, and simplifies the process.
 
 ********
-### Step by step guide of the projects
+### Step by step guide of the projects 
+#### Folder structure
+```bash
+crud-demo
+-config
+		-db.js
+	-controllers
+		-user.controller.js
+	-model
+		-user.model.js
+	-node_modules
+	-routes
+		-user.route.js
+	-.env
+	-.env.example
+	-.gitignore
+	-app.js
+	-index.js
+	-crud-demo.postman_collection.json
+	-package-lock.json
+	-package.json
+	-README.md
+```
 ##### Create a folder call crud-demo
 Inside the crud-demo folder initialize package.json by running the `npm init -y` in the terminal.
 
@@ -95,12 +117,13 @@ PORT=8081
 MONGODBURL=mongodb://127.0.0.1:27017/crud-demo
 ``` 
 
-##### Create new folder `config` inside the config folder create a new file `db.js`
+#### Create new folder `config` inside the config folder create a new file `db.js`
 **db.js**   
 Inside the `db.js` file import `mongoose` and create a function that will connect to the database provided with local mongodbUrl from `.env` i.e `process.env.MONGODBURL` when the function is called, and export the function
 ```javascript
 import mongoose from "mongoose";
-// it ensure that only the fields that are specified in the schema will be saved in the  database, and all other fields will not be saved (incase if some other fields are sent)
+// it ensure that only the fields that are specified in the schema will be saved in the    
+// database, and all other fields will not be saved (incase if some other fields are sent)
 const connectDatabase = async () => {
   await mongoose
     .set("strictQuery", true) 
@@ -141,7 +164,8 @@ export default app;
 
 ##### Create User Schema
 Create a new folder `model` and inside it create a new file `user.models.js` 
-Inside the file create a user schema using mongoose.
+Inside the file create a user schema using mongoose.    
+`Regex` expression is used to check if the email provided is a valid email
 ```javascript
 import mongoose from "mongoose";
 
@@ -151,13 +175,19 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "user name is required"],
       trim: true,
+      minlength: [5, "Name must be at least 5 characters"],
       maxlength: [20, "Name must be less than 20 characters"],
     },
     email: {
       type: String,
       required: [true, "user email is required"],
-      trim: true,
+      // trim: true, // I do not think trim: true is required for email
       unique: true,
+      lowercase: true,
+      match: [
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        "Please fill in a valid email address",
+      ],
     },
   },
   {
@@ -165,12 +195,18 @@ const userSchema = mongoose.Schema(
   }
 );
 
-export default mongoose.model("user", userSchema);
+export default mongoose.model("User", userSchema);
+
 ```
 ##### Set up with the controllers
 Create another new folder called `controllers` inside it create a new file `user.controller.js` the file should contain the following function 
 - `createProfile`  
 For creating profile of the user using POST HTTP request method, name and email are the required field to be provided.
+
+**HTTP request method**: HTTP POST request method    
+**Required fields**: Email and Name are the two required fields             
+**Database query**: `User.findOne({email})` to get profile using user's email and `User.create({name, email})` to create and save user with respective name and email.   
+**Route**: http://localhost:8081/api/v1/users
 ```javascript
 export const createProfile = async (req, res) => {
   try {
@@ -210,7 +246,11 @@ export const createProfile = async (req, res) => {
 };
 ```
 - `fetchProfile`   
-It fetch all the available profile in the database using the GET HTTP request method.
+It fetch all the available profile in the database using the GET HTTP request method.    
+**HTTP Request method**: HTTP GET request method.   
+**Required field**: user's id   
+**Database query**: `User.find()` where User is the User Schema      
+**Route**: http://localhost:8081/api/v1/users
 ```javascript
 export const fetchProfile = async (req, res) => {
   try {
@@ -233,7 +273,11 @@ export const fetchProfile = async (req, res) => {
 };
 ```
 - `getProfileById`    
-It fetch a particular user profile details using the user profile id and HTTP GET request method.
+It fetch a particular user profile details using the user profile id and HTTP GET request method.    
+**HTTP Request method**: HTTP GET request method.   
+**Required field**: user's id   
+**Database query**: `User.findById(id)` where User is the User Schema      
+**Route**: http://localhost:8081/api/v1/users/:id
 ```javascript
 export const getProfileById = async (req, res) => {
   try {
@@ -268,7 +312,11 @@ export const getProfileById = async (req, res) => {
 
 ```
 - `deleteProfile`   
-It delete a particular user profile using the user profile id and DELETE HTTP request method.
+It delete a particular user profile using the user profile id and DELETE HTTP request method.     
+**HTTP Request method**: HTTP DELETE request method.   
+**Required field**: user's id   
+**Database query**: `User.findByIdAndDelete()` where User is the User Schema      
+**Route**: http://localhost:8081/api/v1/users/:id
 ```javascript
 export const deleteProfile = async (req, res) => {
   try {
@@ -299,8 +347,13 @@ export const deleteProfile = async (req, res) => {
   }
 };
 ``` 
-- `updateProfile`   
-It update the user profile details using the user profile id and HTTP PUT request method.
+- `updateProfile`
+
+It update the user profile details using the user profile id and HTTP PUT request method.  
+**HTTP Request method**: HTTP PATCH request method.   
+**Required field**: user's id   
+**Database query**: `User.findByIdAndUpdate()` where User is the User Schema      
+**Route**: http://localhost:8081/api/v1/users/:id
 ```javascript
 export const updateProfile = async (req, res) => {
   try {
@@ -340,21 +393,48 @@ import express from "express";
 import {
   createProfile,
   deleteProfile,
-  fetchProfile,
+  fetchProfiles,
   getProfileById,
-  home,
   updateProfile,
 } from "../controllers/user.controller.js";
 const router = express.Router();
 
-router.route("/").get(home);
-router.route("/create/profile").post(createProfile);
-router.route("/fetch/profile").get(fetchProfile);
-router.route("/fetch/profile/:id").get(getProfileById);
-router.route("/profile/delete/:id").delete(deleteProfile);
-router.route("/profile/update/:id").put(updateProfile);
+router.route("/users").get(fetchProfiles);
+router.route("/users").post(createProfile);
+
+// :id for dynamic routes.
+router.route("/users/:id").get(getProfileById);
+router.route("/users/:id").delete(deleteProfile);
+router.route("/users/:id").patch(updateProfile);
 
 export default router;
+
+```
+##### Testing Route -
+Simple route to test if the server is up and running    
+**HTTP request method**: HTTP GET request method   
+**Required fields**: null   
+**Database ODM query**: null   
+**Route**: http//localhost:8081/ping
+```javascript
+export const home = (req, res) => {
+  res.send("Pong");
+};
+```
+
+##### 404 Error handle -
+Handling the missing EndPoints route
+**HTTP request method**: HTTP GET request method   
+**Required fields**: null   
+**Database ODM query**: null   
+**Route**: http//localhost:8081/*
+```javascript
+export const missingEndPoints = (req, res, next) => {
+  res.status(404).json({
+    success: false,
+    message: `404 - ${req.method} ${req.originalUrl} not found`,
+  });
+};
 ```
 
 ##### Routes declaration in `app.js`
@@ -377,10 +457,46 @@ connectDatabase();
 
 // import route
 import userRoute from "./routes/user.route.js";
+import { home, missingEndPoints } from "./controllers/user.controller.js";
+
+// testing the api
+app.use("/ping", home);
+
+// user routes
 app.use("/api/v1", userRoute);
+
+// handling the missing route
+app.use("*", missingEndPoints);
 
 export default app;
 
 ```
 
 **Now the backend is ready and can be tested using Postman**
+##### Running the application (development)
+To run the application in development type and run `npm run dev` in the terminal     
+i.e
+```bash
+$> npm run dev
+
+> crud-demo@1.0.0 dev
+> nodemon index.js   
+
+[nodemon] 2.0.20
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,json
+[nodemon] starting `node index.js`
+Server up and running at Port 8081
+database connected at 127.0.0.1:27017
+```
+This shows that the application server is up and running at PORT 8081 with the database connected locally.
+
+### Optional  
+##### `.gitignore` file config 
+Create a new file called `.gitignore` file in the root directory and add `.env` and node_modules name in it, so that the secret key, port or URLs along with the all the files in node_modules are not mad available to the public when the code is pushed to any remote software version control system like GitHub.
+```bash
+.env
+node_modules
+```
+*********************************end*********************************
