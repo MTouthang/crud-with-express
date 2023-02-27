@@ -2,18 +2,17 @@ import express from "express";
 import {
   createProfile,
   deleteProfile,
-  fetchProfile,
+  fetchProfiles,
   getProfileById,
   home,
   updateProfile,
 } from "../controllers/user.controller.js";
 const router = express.Router();
 
-router.route("/create/profile").post(createProfile);
-router.route("/fetch/profile").get(fetchProfile);
-router.route("/fetch/profile/:id").get(getProfileById);
-router.route("/profile/delete/:id").delete(deleteProfile);
-router.route("/profile/update/:id").put(updateProfile);
-router.route("/").get(home);
+router.route("/users").get(fetchProfiles);
+router.route("/users").post(createProfile);
+router.route("/users/:id").get(getProfileById);
+router.route("/users/:id").delete(deleteProfile);
+router.route("/users/:id").patch(updateProfile);
 
 export default router;
