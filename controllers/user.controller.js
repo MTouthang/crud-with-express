@@ -41,11 +41,9 @@ export const createProfile = async (req, res) => {
       email,
     });
 
-    console.log(user);
-
     res.status(200).json({
       success: true,
-      message: "user created successfully",
+      message: "User created successfully",
       user,
     });
   } catch (error) {
@@ -57,18 +55,18 @@ export const createProfile = async (req, res) => {
 };
 
 /**
- * @fetchProfile - get request
+ * @fetchProfiles - get request
  * @param {} req  user email
  * @param {Object} res all the profiles of the user
  * @description get all the available user profile
  * @returns {Object} object of user details
  */
-export const fetchProfile = async (req, res) => {
+export const fetchProfiles = async (req, res) => {
   try {
     const user = await User.find();
 
     if (user) {
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: "profile fetch successfully",
         user,
@@ -96,18 +94,17 @@ export const getProfileById = async (req, res) => {
     if (!id) {
       throw new Error("Provide the valid User Id");
     }
-    console.log(`id - ${id}`);
 
     const user = await User.findById(id);
 
     if (user) {
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: "profile fetch successful",
         user,
       });
     } else {
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: "Profile is not available",
       });
@@ -137,19 +134,20 @@ export const deleteProfile = async (req, res) => {
 
     const user = await User.findByIdAndDelete(id);
 
+    // Need to check this if user returns something if it deletes the ID
     if (user) {
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: "profile deleted successfully",
       });
     } else {
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         message: "profile is deleted not available",
       });
     }
   } catch (error) {
-    res.status(400).json({
+    return res.status(400).json({
       success: false,
       message: error.message,
     });
