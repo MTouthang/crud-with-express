@@ -1,8 +1,8 @@
-## Backend CRUD demo
+# Backend CRUD demo
 A simple CRUD demo application
 *****
 
-### Package Required to be installed
+## Package Required to be installed
 **Make sure that node is install in the system**   
 1. **nodemon**: is a tool that helps develop Node.js based application automatically restarting the node application when file change in the directory are detected.
 1. **express**: is a backend web application framework for building Restful APIs with Nodejs
@@ -18,11 +18,12 @@ Inside the crud-demo folder initialize package.json by running the `npm init -y`
 i.e    
 `PS E:\WORK\crud-demo> npm init -y`
 
-##### Install all the required Packages
+### Install all the required Packages
 Run the following script in the terminal to install the required packages   
 `npm install dotenv express mongoose morgan`   
 Run the script below to install nodemon as development environment  
 `npm install -D nodemon`  
+
 **Package.json** file  
 Inside the `package.json` file add  
 - `"type": "module",` to enable ES6 way of export and import  
@@ -56,7 +57,7 @@ Inside the `package.json` file add
 
 ```
 
-##### Create Two folders app.js and index.js    
+### Create Two folders app.js and index.js    
 **App.js**  
 Firstly import `express`, `dotenv`, and `morgan`. Configure `dotenv` (loads environment variable) and initial express and use middleware `morgan` and `express json` i.e `app.use(express.json())` to handle json data object and `app.use(morgan("tiny"))` to log http request and export the app module.
 ```javascript
@@ -88,7 +89,9 @@ app.listen(port, () => {
 #### create .env file in the root folder
 Declare port number where the server will run and local mongodbUrl where the database will be connected.
 ```md
+# server port number
 PORT=8081
+# database url
 MONGODBURL=mongodb://127.0.0.1:27017/crud-demo
 ``` 
 
@@ -97,10 +100,10 @@ MONGODBURL=mongodb://127.0.0.1:27017/crud-demo
 Inside the `db.js` file import `mongoose` and create a function that will connect to the database provided with local mongodbUrl from `.env` i.e `process.env.MONGODBURL` when the function is called, and export the function
 ```javascript
 import mongoose from "mongoose";
-
+// it ensure that only the fields that are specified in the schema will be saved in the  database, and all other fields will not be saved (incase if some other fields are sent)
 const connectDatabase = async () => {
   await mongoose
-    .set("strictQuery", true)
+    .set("strictQuery", true) 
     .connect(process.env.MONGODBURL)
     .then((con) =>
       console.log(

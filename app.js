@@ -17,9 +17,13 @@ connectDatabase();
 import userRoute from "./routes/user.route.js";
 import { home, missingEndPoints } from "./controllers/user.controller.js";
 
-app.use("/ping", home); // testing the api
+// testing the api
+app.use("/ping", home);
 
+// user routes
 app.use("/api/v1", userRoute);
 
+// handling the missing route
 app.use("*", missingEndPoints);
+
 export default app;
