@@ -134,7 +134,6 @@ export const deleteProfile = async (req, res) => {
 
     const user = await User.findByIdAndDelete(id);
 
-    // Need to check this if user returns something if it deletes the ID
     if (user) {
       return res.status(200).json({
         success: true,
@@ -143,7 +142,7 @@ export const deleteProfile = async (req, res) => {
     } else {
       return res.status(200).json({
         success: true,
-        message: "profile is deleted not available",
+        message: "Profile with given ID does not exist",
       });
     }
   } catch (error) {
