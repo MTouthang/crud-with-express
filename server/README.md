@@ -310,8 +310,8 @@ export const getProfileById = async (req, res) => {
 };
 
 ```
-- **Deleting Profile (DELETE)** `deleteProfile`   
-It delete a particular user profile using the user profile id and DELETE HTTP request method.     
+- **Deleting Profile (DELETE)** `deleteProfile`    
+It delete a particular user profile using the user profile id and DELETE HTTP request method.
 **HTTP Request method**: HTTP DELETE request method.   
 **Required field**: user's id   
 **Database query**: `User.findByIdAndDelete()` where User is the User Schema      
