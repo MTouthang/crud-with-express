@@ -202,7 +202,6 @@ export default mongoose.model("User", userSchema);
 Create another new folder called `controllers` inside it create a new file `user.controller.js` the file should contain the following function 
 - **Creatinng Profile (POST)** `createProfile`  
 For creating profile of the user using POST HTTP request method, name and email are the required field to be provided.
-
 **HTTP request method**: HTTP POST request method    
 **Required fields**: Email and Name are the two required fields             
 **Database query**: `User.findOne({email})` to get profile using user's email and `User.create({name, email})` to create and save user with respective name and email.   
