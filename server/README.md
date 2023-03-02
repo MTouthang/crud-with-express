@@ -346,8 +346,7 @@ export const deleteProfile = async (req, res) => {
   }
 };
 ``` 
-- **Deleting Profile (PUT)** `updateProfile`
-
+- **Deleting Profile (PUT)** `updateProfile`   
 It update the user profile details using the user profile id and HTTP PUT request method.  
 **HTTP Request method**: HTTP PATCH request method.   
 **Required field**: user's id   
