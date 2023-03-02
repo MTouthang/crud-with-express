@@ -12,6 +12,6 @@ router.route("/users").get(fetchProfiles);
 router.route("/users").post(createProfile);
 router.route("/users/:id").get(getProfileById);
 router.route("/users/:id").delete(deleteProfile);
-router.route("/users/:id").patch(updateProfile);
+router.route("/users/:id").put(updateProfile);
 
 export default router;
