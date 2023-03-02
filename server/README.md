@@ -200,7 +200,7 @@ export default mongoose.model("User", userSchema);
 ```
 ##### Set up with the controllers
 Create another new folder called `controllers` inside it create a new file `user.controller.js` the file should contain the following function 
-- `createProfile`  
+- **Creatinng Profile (POST)** `createProfile`  
 For creating profile of the user using POST HTTP request method, name and email are the required field to be provided.
 
 **HTTP request method**: HTTP POST request method    
@@ -245,7 +245,7 @@ export const createProfile = async (req, res) => {
   }
 };
 ```
-- `fetchProfile`   
+- **Fetching Profile(s)** `fetchProfile`   
 It fetch all the available profile in the database using the GET HTTP request method.    
 **HTTP Request method**: HTTP GET request method.   
 **Required field**: user's id   
@@ -272,7 +272,7 @@ export const fetchProfile = async (req, res) => {
   }
 };
 ```
-- `getProfileById`    
+- **Fetching particular user Profile using id** `getProfileById`    
 It fetch a particular user profile details using the user profile id and HTTP GET request method.    
 **HTTP Request method**: HTTP GET request method.   
 **Required field**: user's id   
@@ -311,7 +311,7 @@ export const getProfileById = async (req, res) => {
 };
 
 ```
-- `deleteProfile`   
+- **Deleting Profile (DELETE)** `deleteProfile`   
 It delete a particular user profile using the user profile id and DELETE HTTP request method.     
 **HTTP Request method**: HTTP DELETE request method.   
 **Required field**: user's id   
@@ -347,7 +347,7 @@ export const deleteProfile = async (req, res) => {
   }
 };
 ``` 
-- `updateProfile`
+- **Deleting Profile (PUT)** `updateProfile`
 
 It update the user profile details using the user profile id and HTTP PUT request method.  
 **HTTP Request method**: HTTP PATCH request method.   
@@ -499,4 +499,3 @@ Create a new file called `.gitignore` file in the root directory and add `.env` 
 .env
 node_modules
 ```
-*********************************end*********************************
