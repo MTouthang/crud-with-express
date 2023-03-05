@@ -33,15 +33,21 @@ const UserList = ({ user, setUserData }) => {
   };
 
   const updateUserProfile = async (id) => {
+    setToggle(false);
     try {
       const res = await axios.put(`/users/${id}`, {
         name: name ? name : user.name,
         email: email ? email : user.email,
       });
-    } catch (error) {}
+      // console.log(res.data.message);
+      alert(res.data.message);
+    } catch (error) {
+      // console.log(error.response.data.message);
+      alert(error.response.data.message);
+      window.location.reload();
+    }
   };
 
-  console.log(edit);
   return (
     <section className="text-gray-600 body-font">
       <div className="container px-5 py-10  mx-auto">
@@ -72,9 +78,9 @@ const UserList = ({ user, setUserData }) => {
                     </td>
                     <td className="w-[15rem] px-4 py-3 text-lg text-gray-900 hover:text-indigo-600 hover:cursor-pointer">
                       <span onClick={() => editToggle(userItem._id)}>
-                        {toggle ? "Cancel" : "Edit"}
+                        {toggle && edit === userItem._id ? "Cancel" : "Edit"}
                       </span>
-                      {toggle && (
+                      {toggle && edit === userItem._id && (
                         <span
                           className="mx-5"
                           onClick={() => updateUserProfile(userItem._id)}
