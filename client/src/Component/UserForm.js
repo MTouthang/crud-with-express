@@ -5,17 +5,20 @@ const UserForm = ({ setUserData }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
+  // create or add user profile function
   const handleAddUser = async () => {
-    // create user profile function
     try {
+      // check if whether both field
       if (!name || !email) {
         alert("Both name and email are required!");
       }
+
+      // api calls for creating new user profile
       const res = await axios.post("/users", {
         name: name,
         email: email,
       });
-      console.log(res.data.user);
+
       if (res.status) {
         // setting the user details
         setUserData((prev) => {

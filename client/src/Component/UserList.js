@@ -20,11 +20,10 @@ const UserList = ({ user, setUserData }) => {
         alert("user deleted successfully!");
       }
     } catch (error) {
-      console.log("error");
+      alert("user not able to delete");
     }
   };
-
-  // update user
+  // toggle edit button
   const editToggle = (id) => {
     setToggle(toggle ? false : true);
     setEdit((prev) => {
@@ -36,9 +35,11 @@ const UserList = ({ user, setUserData }) => {
     setToggle(false);
     try {
       const res = await axios.put(`/users/${id}`, {
-        name: name ? name : user.name,
-        email: email ? email : user.email,
+        name: name,
+        email: email,
       });
+      console.log(user.name);
+      console.log(user.email);
       // console.log(res.data.message);
       alert(res.data.message);
     } catch (error) {
@@ -85,7 +86,7 @@ const UserList = ({ user, setUserData }) => {
                           className="mx-5"
                           onClick={() => updateUserProfile(userItem._id)}
                         >
-                          update
+                          Update
                         </span>
                       )}
                     </td>
