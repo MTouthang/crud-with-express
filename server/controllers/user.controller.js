@@ -84,7 +84,7 @@ export const fetchProfiles = async (req, res) => {
  * @getProfileById
  * @param {String} req unique id of a user
  * @param {Object} res details of a particular user
- * @description - get profile of a user using the user Id
+ * @description - get profile of a user using the user Id (optional Route)
  * @returns {Object} - particular user details
  */
 export const getProfileById = async (req, res) => {
